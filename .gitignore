@@ -1,0 +1,41 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+.env/
+
+# Environment variables
+.env
+.env.*
+
+# VS Code settings
+.vscode/
+
+# macOS metadata
+.DS_Store
+
+# Logs
+*.log
+
+# Test cache
+.pytest_cache/
+.cache/
+
+# Coverage reports
+htmlcov/
+coverage.xml
+*.cover
+
+# MyPy
+.mypy_cache/
+
+# Database (optional)
+*.sqlite3
+
+# Node modules if frontend in same repo
+node_modules/
