@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { getToken } from "../utils/auth";
 
 const API_URL = "http://localhost:8000";
 
-const MyContests = ({ token }) => {
+const MyContests = () => {
     const [contests, setContests] = useState([]);
+    const token = getToken();
   
     useEffect(() => {
       fetchContests();
