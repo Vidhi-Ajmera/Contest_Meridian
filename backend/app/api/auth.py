@@ -18,21 +18,21 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 
 # ========== UTILITY FUNCTION ========== #
-def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email = payload.get("sub")
         if email is None:
             raise HTTPException(status_code=401, detail="Invalid token")
-        return email  # Only return email here
+        return email
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
 
 # ========== SIGNUP ========== #
 @router.post("/signup", response_model=UserOut)
-def signup(user: UserCreate):
-    existing = users_collection.find_one({"email": user.email})
+async def signup(user: UserCreate):
+    existing = await users_collection.find_one({"email": user.email})
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
@@ -43,14 +43,14 @@ def signup(user: UserCreate):
         role=user.role,
     ).dict()
 
-    users_collection.insert_one(user_dict)
+    await users_collection.insert_one(user_dict)
     return UserOut(**user_dict)
 
 
 # ========== LOGIN ========== #
 @router.post("/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = users_collection.find_one({"email": form_data.username})
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = await users_collection.find_one({"email": form_data.username})
     if not user or not verify_password(form_data.password, user["hashed_password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
