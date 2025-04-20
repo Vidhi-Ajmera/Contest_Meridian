@@ -10,3 +10,4 @@ python-multipart
 dotenv
 pymongo
 mangum
+motor
