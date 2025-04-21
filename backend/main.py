@@ -28,4 +28,4 @@ app.include_router(questions.router, prefix="/questions")
 app.include_router(submissions.router, prefix="/submissions")
 
 # 🆕 Required for Vercel serverless handler
-handler = app
+handler = Mangum(app)
